@@ -1,0 +1,7 @@
+### Definir la dirección base del host
+@coruBus_HostAddress = http://localhost:5234
+
+
+### Otra solicitud GET para obtener la lista de líneas (si has implementado este endpoint)
+GET {{coruBus_HostAddress}}/lineas
+Accept: application/json

@@ -1,0 +1,21 @@
+# Build
+bin/
+obj/
+
+# Visual Studio Code
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+
+# Logs
+*.log
+
+# Dotnet environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
