@@ -1,11 +1,10 @@
 using busApi;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
 
 var app = builder.Build(); 
-
-// redirección https , por si se llaga usar.
-app.UseHttpsRedirection();
 
 // endpoints 
 app.ConfigureRoutes();

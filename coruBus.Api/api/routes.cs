@@ -1,55 +1,56 @@
-using Microsoft.AspNetCore.Builder; 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
-namespace busApi 
+namespace busApi
 {
 
-public static class Routes 
-{   
-    private static readonly Dictionary<string, string> rutas = new()
+    public static class Routes
     {
-        { "osm", "bus/datos/osm.json" },
-        { "translate", "bus/datos/translate.json" },
-        { "paradas", "bus/datos/paradas.json" },
-        { "lineas", "bus/datos/lineas.json" },
-        { "geojson", "bus/static/paradas.geojson.js" },
-        { "rutas", "bus/datos/rutas.json" },
-        { "queryitr", "bus/datos/queryitr_v3.json" }
-    };
 
-    // URL para actualizar
-    private const string url = "https://itranvias.com/queryitr_v3.php?func=7&dato=20160101T000000_gl_0_20160101T000000";
 
-    // Ejecutar la actualización al iniciar
-    // private static readonly (object jlineas, object jparadas, object jrutas) = 
-    // Actualizar(url, rutas);
 
-     public static void ConfigureRoutes(this WebApplication app)
-    {  
-        // Ruta para obtener todas las líneas de buses
-        app.MapGet("/lineas", () =>
+        public static void ConfigureRoutes(this WebApplication app)
         {
-            return Results.Ok(new { message = "Aquí van las líneas de buses" });
-        });
+            // Ruta para obtener todas las líneas de buses
+            app.MapGet("/lin", () =>
+            {
+                return Results.Ok(new { message = "Aquí van las líneas de buses" });
+            });
 
-        // Aquí puedes agregar más rutas según sea necesario, como /paradas, /linea/{id}, etc.
-        app.MapGet("/paradas", () =>
-        {
-            return Results.Ok(new { message = "Aquí van las paradas de buses" });
-        });
+            // Aquí puedes agregar más rutas según sea necesario, como /paradas, /linea/{id}, etc.
+            app.MapGet("/paradas", () =>
+            {
+                return Results.Ok(new { message = "Aquí van las paradas de buses" });
+            });
 
-        app.MapGet("/linea/{id}", (int id) =>
-        {
-            return Results.Ok(new { message = $"Detalles de la línea {id}" });
-        });
+            app.MapGet("/linea/{id}", (int id) =>
+            {
+                return Results.Ok(new { message = $"Detalles de la línea {id}" });
+            });
 
-        // Y más rutas aquí...
+            app.MapGet("/getLineas", async ([FromServices] HttpClient httpClient) =>
+                {
+                    try
+                    {
+                        var lineas = await coruBus.Api.api.lineas.getLineas.ObtenerLineas(httpClient);
+                        if (lineas == null) return Results.NotFound();
+
+                        string jsonString = lineas.ToString(Newtonsoft.Json.Formatting.None);
+
+                        // Devolver raw JSON como contenido con tipo application/json
+                        return Results.Content(jsonString, "application/json");
+                    }
+                    catch (Exception ex)
+                    {
+                        return Results.Problem(ex.Message);
+                    }
+                });
+
+        }
+
     }
-
-}
 
 }

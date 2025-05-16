@@ -3,5 +3,5 @@
 
 
 ### Otra solicitud GET para obtener la lista de líneas (si has implementado este endpoint)
-GET {{coruBus_HostAddress}}/lineas
+GET {{coruBus_HostAddress}}/getLineas
 Accept: application/json
