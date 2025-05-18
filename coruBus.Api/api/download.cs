@@ -1,66 +1,92 @@
 using System;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
 using Newtonsoft.Json.Linq;
+
+/* Ruta Buses - Parada 
+
+Se le pasa -> número de parada : devuelve  -> buses para esa parada y tiempo etc // se le puede pasar : 1747432461571 ms, 
+
+Código que genera un timestamp -> 
+string baseUrl = https://itranvias.com/queryitr_v3.php?&dato=523&func=0";
+long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+string fullUrl = $"{baseUrl}&_={timestamp}";
+
+Rutas sin timestamp ->
+https://itranvias.com/queryitr_v3.php?&dato=523&func=0
+*/
+
 
 namespace coruBus.Api.api.lineas
 {
     public static class getLineas
     {
 
-        public static async Task<JArray?> ObtenerLineas(HttpClient httpClient)
-        {   
+        public static async Task<string> getAllLineas(HttpClient httpClient)
+        {
             string url = "https://itranvias.com/queryitr_v3.php?func=7&dato=20160101T000000_gl_0_20160101T000000";
             try
-            {   
+            {
                 string json = await httpClient.GetStringAsync(url);
-                var obj = JObject.Parse(json);  
 
-                var actualizacion = obj["iTranvias"]?["actualizacion"] as JObject;
-                Console.WriteLine($"Tipo de actualizacion: {actualizacion?.GetType()}"); 
+                using var doc = JsonDocument.Parse(json);
+                var lineasArray = doc.RootElement
+                    .GetProperty("iTranvias")
+                    .GetProperty("actualizacion")
+                    .GetProperty("lineas");
 
-                JArray? lineas = actualizacion["lineas"] as JArray; 
-                Console.WriteLine(lineas);
+                var listaReducida = new List<object>();
 
-                return lineas;
+                foreach (var linea in lineasArray.EnumerateArray())
+                {
+                    var objReducido = new
+                    {
+                        Id = linea.GetProperty("id").GetInt32(),
+                        Lin_comer = linea.GetProperty("lin_comer").GetString(),
+                        Nombre_orig = linea.GetProperty("nombre_orig").GetString(),
+                        Nombre_dest = linea.GetProperty("nombre_dest").GetString(),
+                        Color = linea.GetProperty("color").GetString()
+                    };
+                    listaReducida.Add(objReducido);
+                }
+
+                string jsonReducido = JsonSerializer.Serialize(listaReducida, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                return jsonReducido;
             }
             catch (Exception ex)
             {
-                // Si hay un error, lanzar la excepción
+                throw new Exception("Error al obtener las líneas", ex);
+            }
+        }
+       
+
+        public static async Task<JObject?> ObtenerBusesParada(HttpClient httpClient)
+        {
+            try
+            {
+                string baseUrl = "https://itranvias.com/queryitr_v3.php?dato=523&func=0";
+                long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                string fullUrl = $"{baseUrl}&_={timestamp}";
+                Console.WriteLine(fullUrl);
+
+                string json = await httpClient.GetStringAsync(fullUrl);
+                Console.WriteLine(json);
+
+                var obj = JObject.Parse(json);
+                Console.WriteLine(obj);
+
+                return obj;
+            }
+            catch (Exception ex)
+            {
                 throw new Exception("Error al obtener las líneas", ex);
             }
         }
 
     }
 }
-      
-
-
-
-
-
-/* json_lineas ->
-Generar un JSON con todas las líneas. (id, nombre, origen, destino, color) */
-
-// ---------------------------------------
-/* json_paradas ->
-Generar un JSON con todas las paradas. (id, nombre, propiedades: [
-pavimento, banco, marquesina, papelera, iluminada], líneas: [id, nombre,
-color], coordenadas, coordenadas de OSM) */ 
-
-
-// ---------------------------------------
-/* json_rutas ->
-Generar un JSON con las paradas por las que pasa cada línea*/
-
-
-// ---------------------------------------
-/* geoson ->
-Generar un GeoJSON con todas las paradas y un diálogo que enlaza a la
-parada y a las líneas que pasan por la parada */
-
-
-
-// --------------------------------------- 
-/* datos_oms -> 
-Descarga los datos de OSM a través de overpass y los guarda en un archivo GeoJSON */

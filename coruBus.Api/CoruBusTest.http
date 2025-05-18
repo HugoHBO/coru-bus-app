@@ -1,7 +1,17 @@
 ### Definir la dirección base del host
 @coruBus_HostAddress = http://localhost:5234
 
-
-### Otra solicitud GET para obtener la lista de líneas (si has implementado este endpoint)
-GET {{coruBus_HostAddress}}/getLineas
+### (Devuelve toda la informacion de las lineas)
+GET {{coruBus_HostAddress}}/api/getLineas
 Accept: application/json
+
+### (Devuelve la información de cada linea para la parada seleccionada)
+GET {{coruBus_HostAddress}}/api/getBusesParada
+Accept: application/json
+
+### (devuelve la información de las paradas de una linea concreta )
+POST  {{coruBus_HostAddress}}/api/paradas
+Content-Type: application/json
+Accept: application/json
+
+42
