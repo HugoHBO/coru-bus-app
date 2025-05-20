@@ -1,7 +1,3 @@
-using System;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 using Newtonsoft.Json.Linq;
 
 /* Ruta Buses - Parada 
@@ -18,75 +14,82 @@ https://itranvias.com/queryitr_v3.php?&dato=523&func=0
 */
 
 
-namespace coruBus.Api.api.lineas
+namespace dowload
 {
-    public static class getLineas
+    public static class Data
     {
 
-        public static async Task<string> getAllLineas(HttpClient httpClient)
+        public static async Task<IResult> getLineas(HttpClient httpClient)
         {
             string url = "https://itranvias.com/queryitr_v3.php?func=7&dato=20160101T000000_gl_0_20160101T000000";
             try
             {
-                string json = await httpClient.GetStringAsync(url);
+                string response = await httpClient.GetStringAsync(url);
+                JObject jsonObj = JObject.Parse(response);
 
-                using var doc = JsonDocument.Parse(json);
-                var lineasArray = doc.RootElement
-                    .GetProperty("iTranvias")
-                    .GetProperty("actualizacion")
-                    .GetProperty("lineas");
+                var lineasToken = jsonObj["iTranvias"]?["actualizacion"]?["lineas"];
 
-                var listaReducida = new List<object>();
-
-                foreach (var linea in lineasArray.EnumerateArray())
+                if (lineasToken == null || !lineasToken.HasValues)
                 {
-                    var objReducido = new
-                    {
-                        Id = linea.GetProperty("id").GetInt32(),
-                        Lin_comer = linea.GetProperty("lin_comer").GetString(),
-                        Nombre_orig = linea.GetProperty("nombre_orig").GetString(),
-                        Nombre_dest = linea.GetProperty("nombre_dest").GetString(),
-                        Color = linea.GetProperty("color").GetString()
-                    };
-                    listaReducida.Add(objReducido);
+                    return Results.NotFound("No se encontró la sección 'lineas'");
                 }
 
-                string jsonReducido = JsonSerializer.Serialize(listaReducida, new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                });
-
-                return jsonReducido;
+                string responseJson = lineasToken.ToString(Newtonsoft.Json.Formatting.None);
+                return Results.Content(responseJson, "application/json");
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener las líneas", ex);
             }
         }
-       
 
-        public static async Task<JObject?> ObtenerBusesParada(HttpClient httpClient)
+        public static async Task<IResult> GetParadas(HttpClient httpClient)
+        {
+            string url = "https://itranvias.com/queryitr_v3.php?func=7&dato=20160101T000000_gl_0_20160101T000000";
+
+            try
+            {
+                var response = await httpClient.GetStringAsync(url);
+                // var root = JsonSerializer.Deserialize<RootObject>(json);
+                // var soloParadas = new { paradas = root?.iTranvias?.actualizacion?.paradas };
+
+                JObject jsonObj = JObject.Parse(response);
+                var paradasToken = jsonObj["iTranvias"]?["actualizacion"]?["paradas"];
+                if (paradasToken == null || !paradasToken.HasValues)
+                {
+                    return Results.NotFound("No se encontró la sección 'lineas'");
+                }
+                ;
+                string responseJson = paradasToken.ToString(Newtonsoft.Json.Formatting.None);
+                return Results.Content(responseJson, "application/json");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener las líneas", ex);
+            }
+
+        }
+
+        public static async Task<IResult> ObtenerBusesParada(HttpClient httpClient, int idParada)
         {
             try
             {
-                string baseUrl = "https://itranvias.com/queryitr_v3.php?dato=523&func=0";
+                string baseUrl = $"https://itranvias.com/queryitr_v3.php?dato={idParada}&func=0";
                 long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 string fullUrl = $"{baseUrl}&_={timestamp}";
-                Console.WriteLine(fullUrl);
+                string response = await httpClient.GetStringAsync(fullUrl);
+                string? responseJson = JObject.Parse(response)["buses"]?.ToString(Newtonsoft.Json.Formatting.None);
+                if (string.IsNullOrEmpty(responseJson))
+                {
+                    return Results.NotFound(" No se encontró la sección 'buses");
+                }
+                return Results.Content(responseJson, "application/json");
 
-                string json = await httpClient.GetStringAsync(fullUrl);
-                Console.WriteLine(json);
-
-                var obj = JObject.Parse(json);
-                Console.WriteLine(obj);
-
-                return obj;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener las líneas", ex);
             }
         }
-
     }
 }

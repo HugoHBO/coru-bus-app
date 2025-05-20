@@ -5,13 +5,14 @@
 GET {{coruBus_HostAddress}}/api/getLineas
 Accept: application/json
 
-### (Devuelve la información de cada linea para la parada seleccionada)
-GET {{coruBus_HostAddress}}/api/getBusesParada
+### (Devuelve info actual de las lineas para la parada seleccionada)
+POST  {{coruBus_HostAddress}}/api/getBusesParada
 Accept: application/json
 
-### (devuelve la información de las paradas de una linea concreta )
-POST  {{coruBus_HostAddress}}/api/paradas
+523
+
+### (devuelve todas las paradas )
+GET {{coruBus_HostAddress}}/api/getParadas
 Content-Type: application/json
 Accept: application/json
 
-42

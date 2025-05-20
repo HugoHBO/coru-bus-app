@@ -1,4 +1,6 @@
-
+using System.Runtime.CompilerServices;
+using System.Text.Encodings.Web;
+using dowload;
 
 namespace busApi
 {
@@ -9,31 +11,27 @@ namespace busApi
         public static void ConfigureRoutes(this WebApplication app)
         {
 
-            /* Informacion sobre linea concreta -> (paradas: IDA - VUELTA) */
-            app.MapPost("api/paradas", async (HttpRequest request) =>
+            /* Informacion de las lienas */
+            app.MapGet("api/getLineas", async (HttpClient httpClient) =>
             {
-                using var reader = new StreamReader(request.Body);
-                var body = await reader.ReadToEndAsync();
-                if (!int.TryParse(body, out int numero))
-                {
-                    return Results.BadRequest("El valor recibido no es un número entero");
-                }
-
-                return Results.Ok(new { mensaje = "Número recibido correctamente", numero });
+                return await Data.getLineas(httpClient);
             });
 
-
-
-            /* Información sobre las lineas de una parada concreta */
-            app.MapGet("api/getBusesParada", async (HttpClient httpClient) =>
+            /* Información una liena concreta (tiempo, distancia ...) */
+            app.MapPost("api/getBusesParada", async (HttpRequest request, HttpClient httpClient) =>
             {
                 try
                 {
-                    var busesData = await coruBus.Api.api.lineas.getLineas.ObtenerBusesParada(httpClient);
-                    if (busesData == null) return Results.NotFound();
-                    string jsonString = busesData.ToString(Newtonsoft.Json.Formatting.None);
-                    // Devolver raw JSON como contenido con tipo application/json
-                    return Results.Content(jsonString, "application/json");
+                    using StreamReader reader = new StreamReader(request.Body);
+                    string body = await reader.ReadToEndAsync();
+
+                    if (!int.TryParse(body, out int idParada))
+                    {
+                        return Results.BadRequest($"El valor recibido no es un número válido. Recibido: {idParada} ");
+                    }
+
+                    return await Data.ObtenerBusesParada(httpClient, idParada);
+                    
                 }
                 catch (Exception ex)
                 {
@@ -41,24 +39,18 @@ namespace busApi
                 }
             });
 
-            /* Información de todas las lineas de bus */
-            app.MapGet("api/getLineas", async (HttpClient httpClient) =>
+            /* Información de todas las paradas */
+            app.MapGet("api/getParadas", async (HttpClient httpClient) =>
                 {
                     try
                     {
-                        var lineas = await coruBus.Api.api.lineas.getLineas.getAllLineas(httpClient);
-                        if (string.IsNullOrEmpty(lineas))
-                        {
-                            return Results.NotFound();
-                        }
-                        return Results.Content(lineas, "application/json");
+                        return await Data.GetParadas(httpClient);
                     }
                     catch (Exception ex)
                     {
                         return Results.Problem(ex.Message);
                     }
                 });
-
         }
 
     }
