@@ -14,8 +14,9 @@ export class HomeComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
+    // comprobar si hay datos en local storage 
     const datosGuardados = localStorage.getItem('lineasData');
-
+    
     if (!datosGuardados) {
       this.http.get('/api/getLineas').subscribe({
         next: (respuesta) => {
