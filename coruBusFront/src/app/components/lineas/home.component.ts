@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { LineasService } from '../../services/lineas.service';
 
 @Component({
   selector: 'app-home',
@@ -11,12 +13,20 @@ import { HttpClient } from '@angular/common/http';
 export class HomeComponent implements OnInit {
   data: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private _lineasService: LineasService,
+    private router: Router
+  ) {}
 
+  public irAParadas(linea: any): void {
+    this._lineasService.setLinea(linea); // Guarda en memoria y localStorage
+    this.router.navigate(['/paradas']);
+  }
+
+  // Hace la peticcion al endpoint y recupera el objeto de las lineas
   ngOnInit(): void {
-    // comprobar si hay datos en local storage 
     const datosGuardados = localStorage.getItem('lineasData');
-    
     if (!datosGuardados) {
       this.http.get('/api/getLineas').subscribe({
         next: (respuesta) => {
