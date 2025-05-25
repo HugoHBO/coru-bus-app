@@ -1,0 +1,9 @@
+<div>{{ parada.id }} {{ parada.nombre }}</div>
+<div>
+  <span
+    *ngFor="let enlace of parada.enlaces"
+    class="badge bg-primary me-1"
+  >
+    {{ getCodigoLinea(enlace) }}
+  </span>
+</div>

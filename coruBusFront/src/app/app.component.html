@@ -1,3 +1,8 @@
-<router-outlet>
-  
-</router-outlet>
+<app-navbar></app-navbar>
+<ng-container *ngIf="!cargando">
+  <router-outlet></router-outlet>
+</ng-container>
+
+<div *ngIf="cargando">
+  Cargando datos, por favor espera...
+</div>

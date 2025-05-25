@@ -1,12 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { DataService } from './services/Data.service';
+import { forkJoin } from 'rxjs';
+import { NavbarComponent } from "./components/shared/navbar/navbar.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CommonModule, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'coruBusFront';
+  cargando : boolean = true;
+
+  constructor(private _DataSevice : DataService){}
+
+  ngOnInit(): void {
+  forkJoin([
+    this._DataSevice.chargeLineas(),
+    this._DataSevice.chargeParadas()
+  ]).subscribe(() => {
+    this.cargando = false;
+  });
+}
+
+
+
 }
