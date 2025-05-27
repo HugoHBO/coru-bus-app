@@ -1,10 +1,18 @@
-<div>{{ parada.id }} - {{ parada.nombre }}</div>
+
 <div>
-  <span
-    *ngFor="let enlace of parada.enlaces"
-    class="badge me-1"
-    [style.backgroundColor]=" '#' + getColorLineaById(enlace)"
-  >
-    {{ getCodigoLinea(enlace) }} 
-  </span>
+<div (click)="abrirModalParada(parada.id)" style="cursor: pointer">
+  <div>{{ parada.id }} - {{ parada.nombre }}</div>
+  <div>
+    <span
+      *ngFor="let enlace of parada.enlaces"
+      class="badge me-1"
+      [style.backgroundColor]="'#' + getColorLineaById(enlace)"
+    >
+      {{ getCodigoLinea(enlace) }}
+    </span>
+  </div>
+</div>
+
+<!-- Incluye el componente modal -->
+  <app-parada-modal [paradaInfo]="paradaInfo"></app-parada-modal>
 </div>

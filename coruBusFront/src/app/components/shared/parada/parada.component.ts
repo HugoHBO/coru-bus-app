@@ -1,30 +1,49 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParadasService } from '../../../services/Paradas.service';
-import { Parada } from '../../../models/paradas';
+import { Parada, ParadaInfo } from '../../../models/paradas';
+import { ParadaModalComponent } from '../parada-modal/parada-modal.component';
 
 @Component({
   selector: 'app-parada',
-  imports: [CommonModule],
+  imports: [CommonModule, ParadaModalComponent],
   templateUrl: './parada.component.html',
   styleUrl: './parada.component.scss',
 })
 export class ParadaComponent {
   @Input() parada!: Parada;
-  public nombreLinea! :string; 
+  public nombreLinea!: string;
+  public paradaInfo!: ParadaInfo; 
 
-  constructor( private _paradasService : ParadasService){} 
-  
-  public getCodigoLinea(idLinea : number): string | null {
-    return this._paradasService.getCodigoLinea(idLinea);
-  }  
+  constructor(private _paradasService: ParadasService) {}
 
-  public getColorLineaById(idLinea : number) : string {
-      const color = this._paradasService.getColorLineaById(idLinea);
-      if (!color) {
-        return '';
-      }
-      return color
+  @ViewChild(ParadaModalComponent) modal!: ParadaModalComponent;
+
+  public getDatosParada(idParada :number): void {
+    this._paradasService.getDatosPadada(idParada).subscribe({
+      next: (data) =>  {
+      this.paradaInfo = data;
+      if (this.modal) {
+        this.modal.abrirModal();
+      }},
+      error: (err) => console.error('Error al obtener parada:' , err)
+    });
   }
 
+  public abrirModalParada(idParada:number) {
+    // carga los datos de la parada seleccionada en paradaInfo
+    this.getDatosParada(idParada);
+  }
+
+  public getCodigoLinea(idLinea: number): string | null {
+    return this._paradasService.getCodigoLinea(idLinea);
+  }
+
+  public getColorLineaById(idLinea: number): string {
+    const color = this._paradasService.getColorLineaById(idLinea);
+    if (!color) {
+      return '';
+    }
+    return color;
+  }
 }

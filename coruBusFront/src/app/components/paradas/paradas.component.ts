@@ -8,7 +8,7 @@ import { ParadaComponent } from "../shared/parada/parada.component";
 
 @Component({
   selector: 'app-paradas',
-  imports: [CommonModule, ParadaModalComponent, ParadaComponent],
+  imports: [CommonModule, ParadaComponent],
   templateUrl: './paradas.component.html',
   styleUrl: './paradas.component.scss',
 })
@@ -23,27 +23,9 @@ export class ParadasComponent implements OnInit {
   
   constructor(private _paradasService: ParadasService) {}
 
-  @ViewChild(ParadaModalComponent) modal!: ParadaModalComponent;
-
   public getCodigoLinea(enlace : number): string | null {
     return this._paradasService.getCodigoLinea(enlace);
   }  
-
-  public abrirModalParada(idParada:number) {
-    // carga los datos de la parada seleccionada en paradaInfo
-    this.getDatosParada(idParada);
-  }
-  
-  public getDatosParada(idParada :number): void {
-    this._paradasService.getDatosPadada(idParada).subscribe({
-      next: (data) =>  {
-      this.paradaInfo = data;
-      if (this.modal) {
-        this.modal.abrirModal();
-      }},
-      error: (err) => console.error('Error al obtener parada:' , err)
-    });
-  }
 
   ngOnInit(): void {
     this.selectedLinea = this._paradasService.getSelectedLinea();

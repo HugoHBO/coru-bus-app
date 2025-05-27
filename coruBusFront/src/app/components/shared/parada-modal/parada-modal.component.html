@@ -15,11 +15,12 @@
             class="linea-header"
             (click)="linea.buses.length > 1 && toggleLinea(i)"
             [style.cursor]="linea.buses.length > 1 ? 'pointer' : 'default'"
+            [style.backgroundColor]=" '#' + getColorLineaById(linea.linea) + 'A6' "
           >
-            <div><strong>Línea {{ linea.linea }} {{this.getCodigoLinea(linea.linea)}}</strong></div>
+            <div><strong>Línea {{this.getCodigoLinea(linea.linea)}}</strong></div>
             <div class="info-bus">
-              {{ linea.buses[0].tiempo === '0' ? 'En parada' : linea.buses[0].distancia + ' mts' }},
-              a {{ linea.buses[0].tiempo }} minutos
+              {{ linea.buses[0].tiempo === '0' ? 'En parada' : linea.buses[0].distancia + ' mts : '  +  linea.buses[0].tiempo  + ' minutos' }}
+              
             </div>
             <div class="icono-toggle">
               <i

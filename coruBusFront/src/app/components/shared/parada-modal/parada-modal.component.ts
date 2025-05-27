@@ -83,4 +83,12 @@ export class ParadaModalComponent {
     }
     return response.nombre;
   }
+
+  public getColorLineaById(idLinea : number) : string {
+      const color = this._paradasService.getColorLineaById(idLinea);
+      if (!color) {
+        return '';
+      }
+      return color
+  }
 }
