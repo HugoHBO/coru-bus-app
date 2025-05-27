@@ -11,11 +11,20 @@ import { Parada } from '../../../models/paradas';
 })
 export class ParadaComponent {
   @Input() parada!: Parada;
+  public nombreLinea! :string; 
 
   constructor( private _paradasService : ParadasService){} 
   
-   public getCodigoLinea(enlace : number): string | null {
-    return this._paradasService.getCodigoLinea(enlace);
+  public getCodigoLinea(idLinea : number): string | null {
+    return this._paradasService.getCodigoLinea(idLinea);
   }  
+
+  public getColorLineaById(idLinea : number) : string {
+      const color = this._paradasService.getColorLineaById(idLinea);
+      if (!color) {
+        return '';
+      }
+      return color
+  }
 
 }

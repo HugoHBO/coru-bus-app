@@ -1,0 +1,58 @@
+.linea-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+  background-color: white;
+}
+
+.linea-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  transition: background-color 0.3s ease;
+}
+
+.linea-header:hover {
+  background-color: #f0f8ff;
+}
+
+.icono-toggle {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.linea-expandida {
+  padding: 10px 20px;
+  background-color: #fafafa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.bus-extra {
+  padding: 8px 0;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bus-extra:last-child {
+  border-bottom: none;
+}
+
+.modal-content {
+  overflow-y: auto;
+  max-height: 90vh;
+  scrollbar-width: none;
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
+}

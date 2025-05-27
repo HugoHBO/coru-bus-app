@@ -91,5 +91,28 @@ constructor(private _DataService: DataService) {}
     }
     return code;
   }
-
+  
+   public getColorLineaById(idLinea :number) : string| null {
+    const lineas : Linea[] | null = this.getLineas();
+    let linea : Linea | undefined; 
+    if (lineas) {
+      linea = lineas.find( (linea) => linea.id === idLinea)
+    }
+    if (!linea) {
+      return null
+    }
+    return linea.color
+  }
+  
+  public getParadaById(number :number) : Parada | null {
+    const paradas : Parada[] | null = this.getParadas();
+    let parada : Parada | undefined; 
+    if (paradas) {
+      parada = paradas.find( (parada) => parada.id === number)
+    }
+    if (!parada) {
+      return null
+    }
+    return parada
+  }
 }

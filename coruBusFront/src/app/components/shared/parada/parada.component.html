@@ -1,9 +1,10 @@
-<div>{{ parada.id }} {{ parada.nombre }}</div>
+<div>{{ parada.id }} - {{ parada.nombre }}</div>
 <div>
   <span
     *ngFor="let enlace of parada.enlaces"
-    class="badge bg-primary me-1"
+    class="badge me-1"
+    [style.backgroundColor]=" '#' + getColorLineaById(enlace)"
   >
-    {{ getCodigoLinea(enlace) }}
+    {{ getCodigoLinea(enlace) }} 
   </span>
 </div>

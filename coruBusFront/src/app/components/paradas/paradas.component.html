@@ -20,7 +20,7 @@
 
   <div *ngIf="ruta === 'ida'">
     <div role="group">
-      {{ selectedLinea.lin_comer }} {{ selectedLinea.nombre_orig }} -
+      Linea {{ selectedLinea.lin_comer }} - {{ selectedLinea.nombre_orig }} ->
       {{ selectedLinea.nombre_dest }}
     </div>
     <table class="table table-striped table-bordered mt-3">
@@ -40,7 +40,7 @@
 
   <div *ngIf="ruta === 'vuelta'">
     <div role="group">
-      {{ selectedLinea.lin_comer }} {{ selectedLinea.nombre_dest }} -
+      {{ selectedLinea.lin_comer }} - {{ selectedLinea.nombre_dest }} ->
       {{ selectedLinea.nombre_orig }}
     </div>
     <table class="table table-striped table-bordered mt-3">
