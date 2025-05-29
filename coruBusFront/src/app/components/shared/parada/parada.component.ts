@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ParadasService } from '../../../services/Paradas.service';
 import { Parada, ParadaInfo } from '../../../models/paradas';
 import { ParadaModalComponent } from '../parada-modal/parada-modal.component';
+import { FavoritosService } from '../../../services/Favoritos.service';
+import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
 
 @Component({
   selector: 'app-parada',
@@ -13,27 +15,35 @@ import { ParadaModalComponent } from '../parada-modal/parada-modal.component';
 export class ParadaComponent {
   @Input() parada!: Parada;
   public nombreLinea!: string;
-  public paradaInfo!: ParadaInfo; 
+  public paradaInfo!: ParadaInfo;
+  public favoritos: Parada[] = [];
+  esFavorito: boolean = false;
 
-  constructor(private _paradasService: ParadasService) {}
 
-  @ViewChild(ParadaModalComponent) modal!: ParadaModalComponent;
+  constructor(
+    private _paradasService: ParadasService,
+    private _favoritoService: FavoritosService  
+  ) {}
 
-  public getDatosParada(idParada :number): void {
-    this._paradasService.getDatosPadada(idParada).subscribe({
-      next: (data) =>  {
-      this.paradaInfo = data;
-      if (this.modal) {
-        this.modal.abrirModal();
-      }},
-      error: (err) => console.error('Error al obtener parada:' , err)
+  ngOnInit() {
+    this._favoritoService.favoritos$.subscribe(favoritos => {
+      this.esFavorito = this._favoritoService.esFavorito(this.parada.id);
     });
   }
 
-  public abrirModalParada(idParada:number) {
-    // carga los datos de la parada seleccionada en paradaInfo
-    this.getDatosParada(idParada);
+  @ViewChild(ParadaModalComponent) modal!: ParadaModalComponent;
+
+  //#region Favoritos ----------------
+
+  public toggleFavorito(parada : Parada): void {
+    if (this.esFavorito) {
+      this._favoritoService.eliminarFavorito(parada.id);
+    } else {
+      this._favoritoService.addFavorito(parada);
+    }
   }
+
+  //#endregion -----------------------
 
   public getCodigoLinea(idLinea: number): string | null {
     return this._paradasService.getCodigoLinea(idLinea);
@@ -46,4 +56,22 @@ export class ParadaComponent {
     }
     return color;
   }
+
+  public abrirModalParada(idParada: number) {
+    // carga los datos de la parada seleccionada en paradaInfo
+    this.getDatosParada(idParada);
+  }
+
+  private getDatosParada(idParada: number): void {
+    this._paradasService.getDatosPadada(idParada).subscribe({
+      next: (data) => {
+        this.paradaInfo = data;
+        if (this.modal) {
+          this.modal.abrirModal();
+        }
+      },
+      error: (err) => console.error('Error al obtener parada:', err),
+    });
+  }
+  
 }

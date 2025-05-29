@@ -1,18 +1,34 @@
+<div class="p-2 bg-light rounded d-flex justify-content-between align-items-start w-100 fs-6">
+  <!-- ZONA QUE ABRE EL MODAL -->
+  <div
+    class="flex-grow-1"
+    style="cursor: pointer"
+    (click)="abrirModalParada(parada.id)"
+  >
+    <div>{{ parada.id }} - {{ parada.nombre }}</div>
+    <div>
+      <span
+        *ngFor="let enlace of parada.enlaces"
+        class="badge me-1"
+        [style.backgroundColor]="'#' + getColorLineaById(enlace)"
+      >
+        {{ getCodigoLinea(enlace) }}
+      </span>
+    </div>
+  </div>
 
-<div>
-<div (click)="abrirModalParada(parada.id)" style="cursor: pointer">
-  <div>{{ parada.id }} - {{ parada.nombre }}</div>
+  <!-- BOTÓN DE FAVORITOS -->
   <div>
-    <span
-      *ngFor="let enlace of parada.enlaces"
-      class="badge me-1"
-      [style.backgroundColor]="'#' + getColorLineaById(enlace)"
+    <button
+      type="button"
+      class="btn btn-outline-warning btn-lg"
+      [title]="esFavorito ? 'Eliminar de favoritos' : 'Añadir a favoritos'"
+      (click)="toggleFavorito(parada)"
     >
-      {{ getCodigoLinea(enlace) }}
-    </span>
+      <i class="bi" [ngClass]="esFavorito ? 'bi-star-fill' : 'bi-star'"></i>
+    </button>
   </div>
 </div>
 
-<!-- Incluye el componente modal -->
-  <app-parada-modal [paradaInfo]="paradaInfo"></app-parada-modal>
-</div>
+<!-- MODAL -->
+<app-parada-modal [paradaInfo]="paradaInfo"></app-parada-modal>
