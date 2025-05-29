@@ -1,17 +1,30 @@
 <div class="container-central">
-    <!-- Botón que alterna visibilidad -->
-    <button class="btn btn-primary w-100 mb-3" (click)="mostrarFavoritos = !mostrarFavoritos">
-        {{ mostrarFavoritos ? 'Ocultar favoritos' : 'Mostrar favoritos' }}
-    </button>
+  <!-- Botón -->
+  <button
+    class="boton-favoritos mb-0"
+    (click)="mostrarFavoritos = !mostrarFavoritos"
+  >
+    <i class="bi bi-star-fill"></i>
+    <span>
+      {{ mostrarFavoritos ? "Ocultar favoritos" : "Mostrar favoritos" }}
+    </span>
 
-    <!-- Contenido desplegable -->
-    <div *ngIf="mostrarFavoritos && favoritos.length > 0" class="bg-light p-3 rounded shadow-sm">
-        <div class="scroll-paradas">
-            <div class="d-flex flex-column gap-3 px-2">
-                <div *ngFor="let parada of favoritos">
-                    <app-parada [parada]="parada"></app-parada>
-                </div>
-            </div>
-        </div>
+    <i
+      class="bi bi-chevron-right"
+      [style.transform]="mostrarFavoritos ? 'rotate(90deg)' : 'rotate(0deg)'"
+      [style.transition]="'transform 0.3s ease'"
+    >
+    </i>
+  </button>
+
+  <!-- Contenedor desplegable -->
+  <div
+    [ngClass]="{ expandible: true, 'expandible--abierto': mostrarFavoritos }"
+  >
+    <div class="scroll-paradas d-flex flex-column gap-3 px-2">
+      <div *ngFor="let parada of favoritos">
+        <app-parada [parada]="parada"></app-parada>
+      </div>
     </div>
+  </div>
 </div>
