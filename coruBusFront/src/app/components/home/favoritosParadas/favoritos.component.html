@@ -1,5 +1,17 @@
-<div>
-favoritos woks !!
+<div class="container-central">
+    <!-- Botón que alterna visibilidad -->
+    <button class="btn btn-primary w-100 mb-3" (click)="mostrarFavoritos = !mostrarFavoritos">
+        {{ mostrarFavoritos ? 'Ocultar favoritos' : 'Mostrar favoritos' }}
+    </button>
 
-
+    <!-- Contenido desplegable -->
+    <div *ngIf="mostrarFavoritos && favoritos.length > 0" class="bg-light p-3 rounded shadow-sm">
+        <div class="scroll-paradas">
+            <div class="d-flex flex-column gap-3 px-2">
+                <div *ngFor="let parada of favoritos">
+                    <app-parada [parada]="parada"></app-parada>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

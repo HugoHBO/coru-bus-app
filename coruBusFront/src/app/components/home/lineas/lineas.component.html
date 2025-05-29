@@ -1,15 +1,13 @@
 <div class="container-central">
   <div class="scroll-lineas">
     <div class="grid-lineas">
-      <div
-        *ngFor="let linea of lineas"
-        class="linea-card"
-        (click)="irAParadas(linea)"
-        [style.backgroundColor]="'#' + linea.color"
-      >
+      <div *ngFor="let linea of lineas" class="linea-card" (click)="irAParadas(linea)"
+        [style.backgroundColor]="'#' + linea.color">
         <div class="linea-codigo">{{ linea.lin_comer }}</div>
         <div class="linea-nombres">
-          <div>{{ linea.nombre_orig }} → {{ linea.nombre_dest }} </div>
+          <span class="nombre-origen">{{ linea.nombre_orig }}</span>
+          <span class="nombre-separador">→</span>
+          <span class="nombre-destino">{{ linea.nombre_dest }}</span>
         </div>
       </div>
     </div>

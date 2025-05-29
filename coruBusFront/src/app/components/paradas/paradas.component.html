@@ -1,23 +1,16 @@
 <div class="container-central">
   <!-- Cabecera: línea y toggle -->
-  <div
-    class="linea-header d-flex flex-column flex-md-row justify-content-between align-items-center p-4 mb-3 shadow-sm"
-    [style.backgroundColor]="'#' + selectedLinea.color"
-  >
+  <div class="linea-header d-flex flex-column flex-md-row justify-content-between align-items-center p-4 mb-3 shadow-sm"
+    [style.backgroundColor]="'#' + selectedLinea.color">
     <div class="linea-info text-white text-center text-md-start mb-3 mb-md-0">
-      Línea {{ selectedLinea.lin_comer }} &nbsp; 
+      <span>Línea {{ selectedLinea.lin_comer }}</span> &nbsp;
       {{ ruta === 'ida' ? selectedLinea.nombre_orig : selectedLinea.nombre_dest }} →
       {{ ruta === 'ida' ? selectedLinea.nombre_dest : selectedLinea.nombre_orig }}
     </div>
 
     <div class="toggle-wrapper">
-      <input
-        type="checkbox"
-        id="toggleRuta"
-        class="toggleCheckbox"
-        [checked]="ruta === 'vuelta'"
-        (change)="onToggleChange($event)"
-      />
+      <input type="checkbox" id="toggleRuta" class="toggleCheckbox" [checked]="ruta === 'vuelta'"
+        (change)="onToggleChange($event)" />
       <label for="toggleRuta" class="toggleContainer elegant-toggle">
         <span class="toggle-label" [class.active]="ruta === 'ida'">Ida</span>
         <span class="toggle-label" [class.active]="ruta === 'vuelta'">Vuelta</span>
@@ -28,10 +21,7 @@
   <!-- Lista de paradas con scroll interno -->
   <div class="scroll-paradas">
     <div class="d-flex flex-column gap-3 px-2">
-      <app-parada
-        *ngFor="let parada of ruta === 'ida' ? paradasIda : paradasVuelta"
-        [parada]="parada"
-      ></app-parada>
+      <app-parada *ngFor="let parada of ruta === 'ida' ? paradasIda : paradasVuelta" [parada]="parada"></app-parada>
     </div>
   </div>
 </div>

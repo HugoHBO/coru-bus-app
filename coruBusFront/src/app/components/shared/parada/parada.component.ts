@@ -4,7 +4,6 @@ import { ParadasService } from '../../../services/Paradas.service';
 import { Parada, ParadaInfo } from '../../../models/paradas';
 import { ParadaModalComponent } from '../parada-modal/parada-modal.component';
 import { FavoritosService } from '../../../services/Favoritos.service';
-import { reportUnhandledError } from 'rxjs/internal/util/reportUnhandledError';
 
 @Component({
   selector: 'app-parada',
@@ -19,14 +18,13 @@ export class ParadaComponent {
   public favoritos: Parada[] = [];
   esFavorito: boolean = false;
 
-
   constructor(
     private _paradasService: ParadasService,
-    private _favoritoService: FavoritosService  
+    private _favoritoService: FavoritosService
   ) {}
 
   ngOnInit() {
-    this._favoritoService.favoritos$.subscribe(favoritos => {
+    this._favoritoService.favoritos$.subscribe((favoritos) => {
       this.esFavorito = this._favoritoService.esFavorito(this.parada.id);
     });
   }
@@ -35,7 +33,7 @@ export class ParadaComponent {
 
   //#region Favoritos ----------------
 
-  public toggleFavorito(parada : Parada): void {
+  public toggleFavorito(parada: Parada): void {
     if (this.esFavorito) {
       this._favoritoService.eliminarFavorito(parada.id);
     } else {
@@ -73,5 +71,4 @@ export class ParadaComponent {
       error: (err) => console.error('Error al obtener parada:', err),
     });
   }
-  
 }

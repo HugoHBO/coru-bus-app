@@ -1,0 +1,38 @@
+.container-central {
+    width: 98vw;
+    max-width: 1500px;  /* Máximo ancho para no crecer mucho en pantallas grandes */
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1rem;
+    overflow-x: hidden;
+  }
+
+  
+.scroll-paradas {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    border-radius: 12px;
+  }
+
+.fade-expand {
+    animation: fadeDown 0.3s ease-out;
+  }
+
+  @keyframes fadeDown {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
