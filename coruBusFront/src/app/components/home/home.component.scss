@@ -1,3 +1,15 @@
 .container-central {
-  padding-bottom: 1rem; // espacio interior bajo el componente
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
+.container-central::-webkit-scrollbar {
+  display: none;
+}
+

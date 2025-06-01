@@ -42,6 +42,16 @@ export class ParadaComponent {
   }
 
   //#endregion -----------------------
+  
+  //#region Maps ---------------------
+
+  public abrirEnGoogleMaps() {
+  const lat = this.parada.posy;
+  const lng = this.parada.posx;
+  const url = `https://www.google.com/maps?q=${lat},${lng}`;
+  window.open(url, '_blank'); 
+}
+  //#endregion ----------------------
 
   public getCodigoLinea(idLinea: number): string | null {
     return this._paradasService.getCodigoLinea(idLinea);

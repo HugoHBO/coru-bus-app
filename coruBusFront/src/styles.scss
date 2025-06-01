@@ -1,2 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
 
+html, body {
+  
+  overflow: hidden; /* aquí deshabilitas el scroll global */
+}

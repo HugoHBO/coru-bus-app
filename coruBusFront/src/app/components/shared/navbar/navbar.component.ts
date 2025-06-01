@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+toggleMenu() {
+throw new Error('Method not implemented.');
+}
   horaActual: string = '';
   private intervalo!: any;
 

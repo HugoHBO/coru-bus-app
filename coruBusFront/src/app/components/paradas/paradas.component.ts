@@ -1,9 +1,8 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParadasService } from '../../services/Paradas.service';
 import { Linea } from '../../models/linea';
 import { Parada, ParadaInfo } from '../../models/paradas';
-import { ParadaModalComponent } from '../shared/parada-modal/parada-modal.component';
 import { ParadaComponent } from '../shared/parada/parada.component';
 import { FavoritosService } from '../../services/Favoritos.service';
 

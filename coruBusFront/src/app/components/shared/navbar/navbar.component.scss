@@ -3,10 +3,31 @@
 .reloj-digital {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.5rem;
-  background-color: #d87686;
   color: #ffffff;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   min-width: 130px;
 }
 
+.fondo-rojo-degradado {
+  background: linear-gradient(to right, #a50d0d, #b45151); 
+
+}
+
+.btn-sin-borde {
+  border: none ;     
+  background: transparent ;  
+  color: #fff ;       
+  padding: 0.4rem 1rem ;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 6px;
+}
+
+.btn-sin-borde:hover,
+.btn-sin-borde:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  outline: none;
+  box-shadow: none;
+}
