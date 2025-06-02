@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Text.Encodings.Web;
+using corubus.api.Models;
 using dowload;
 
 namespace busApi
@@ -31,7 +32,7 @@ namespace busApi
                     }
 
                     return await Data.ObtenerBusesParada(httpClient, idParada);
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -51,6 +52,28 @@ namespace busApi
                         return Results.Problem(ex.Message);
                     }
                 });
+
+
+            /* Datos de analiticas */
+            app.MapPost("api/sendParadasData", (ParadasCounter paradasCounter) =>
+            {
+                if (paradasCounter.Paradas == null || paradasCounter.Paradas.Count == 0)
+                {
+                    return Results.BadRequest("No se han recibido paradas.");
+                }
+
+                // Procesamiento: aquí guardarías o registrarías los datos
+                foreach (var parada in paradasCounter.Paradas)
+                {
+                    Console.WriteLine($"Parada ID: {parada.Id}, Count: {parada.Count}");
+                }
+
+                // Si todo va bien
+                return Results.Ok(new { mensaje = "Datos de paradas recibidos correctamente." });
+            });
+
+            app.MapGet("api/ping", () => Results.Ok("pong"));
+       
         }
 
     }

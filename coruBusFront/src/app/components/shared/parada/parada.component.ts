@@ -4,6 +4,7 @@ import { ParadasService } from '../../../services/Paradas.service';
 import { Parada, ParadaInfo } from '../../../models/paradas';
 import { ParadaModalComponent } from '../parada-modal/parada-modal.component';
 import { FavoritosService } from '../../../services/Favoritos.service';
+import { AnalyticsService } from '../../../services/Analytics.service';
 
 @Component({
   selector: 'app-parada',
@@ -20,7 +21,8 @@ export class ParadaComponent {
 
   constructor(
     private _paradasService: ParadasService,
-    private _favoritoService: FavoritosService
+    private _favoritoService: FavoritosService,
+    private _analyticsService: AnalyticsService
   ) {}
 
   ngOnInit() {
@@ -66,8 +68,8 @@ export class ParadaComponent {
   }
 
   public abrirModalParada(idParada: number) {
-    // carga los datos de la parada seleccionada en paradaInfo
     this.getDatosParada(idParada);
+    this._analyticsService.incrementParadaCount(idParada);
   }
 
   private getDatosParada(idParada: number): void {

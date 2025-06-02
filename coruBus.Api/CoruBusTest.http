@@ -16,3 +16,18 @@ GET {{coruBus_HostAddress}}/api/getParadas
 Content-Type: application/json
 Accept: application/json
 
+### (recibe las paradas para analitica)
+POST  {{coruBus_HostAddress}}/api/sendParadasData
+Content-Type: application/json
+Accept: application/json
+
+{
+  "Paradas": [
+    { "Id": 1, "Count": 3 },
+    { "Id": 2, "Count": 1 }
+  ]
+}
+
+### (devuelve todas las paradas )
+GET {{coruBus_HostAddress}}/api/ping
+Accept: application/json

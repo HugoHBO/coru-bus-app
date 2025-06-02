@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // endpoints 
-app.ConfigureRoutes();
 app.UseCors("AllowAngularDev");
+app.ConfigureRoutes();
 
 app.Run();

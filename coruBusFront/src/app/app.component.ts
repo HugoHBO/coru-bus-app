@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DataService } from './services/Data.service';
 import { forkJoin } from 'rxjs';
 import { NavbarComponent } from "./components/shared/navbar/navbar.component";
+import { AnalyticsService } from './services/Analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,10 @@ export class AppComponent implements OnInit{
   title = 'coruBusFront';
   cargando : boolean = true;
 
-  constructor(private _DataSevice : DataService){}
+  constructor(
+    private _DataSevice : DataService,
+    private _AnalyticsService : AnalyticsService
+  ){}
 
   ngOnInit(): void {
   forkJoin([
