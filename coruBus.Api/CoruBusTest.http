@@ -2,8 +2,11 @@
 @coruBus_HostAddress = http://localhost:5234
 
 ### (Devuelve toda la informacion de las lineas)
-GET {{coruBus_HostAddress}}/api/getLineas
+POST {{coruBus_HostAddress}}/api/getLineas
+Content-Type: application/json
 Accept: application/json
+
+{"idioma" : "gl"}
 
 ### (Devuelve info actual de las lineas para la parada seleccionada)
 POST  {{coruBus_HostAddress}}/api/getBusesParada
@@ -17,7 +20,7 @@ Content-Type: application/json
 Accept: application/json
 
 ### (recibe las paradas para analitica)
-POST  {{coruBus_HostAddress}}/api/sendParadasData
+POST {{coruBus_HostAddress}}/api/sendParadasData
 Content-Type: application/json
 Accept: application/json
 

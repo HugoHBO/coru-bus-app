@@ -10,13 +10,16 @@ namespace Corubus.Api.Routes
     public static class Routes
     {
 
+        public record PeticionIdioma(string idioma);
+
         public static void ConfigureRoutes(this WebApplication app)
         {
 
             /* Informacion de las lienas */
-            app.MapGet("api/getLineas", async (HttpClient httpClient) =>
+            app.MapPost("api/getLineas", async (PeticionIdioma request, HttpClient httpClient) =>
             {
-                return await Data.getLineas(httpClient);
+                var idioma = request.idioma;
+                return await Data.getLineas(httpClient, idioma);
             });
 
             /* Información una liena concreta (tiempo, distancia ...) */
@@ -42,17 +45,11 @@ namespace Corubus.Api.Routes
             });
 
             /* Información de todas las paradas */
-            app.MapGet("api/getParadas", async (HttpClient httpClient) =>
-                {
-                    try
-                    {
-                        return await Data.GetParadas(httpClient);
-                    }
-                    catch (Exception ex)
-                    {
-                        return Results.Problem(ex.Message);
-                    }
-                });
+            app.MapPost("api/getParadas", async (PeticionIdioma request, HttpClient httpClient) =>
+            {
+                var idioma = request.idioma;
+                return await Data.GetParadas(httpClient, idioma);
+            });
 
 
             /* Datos de analiticas */
@@ -67,8 +64,9 @@ namespace Corubus.Api.Routes
                 return Results.Ok();
             });
 
-            /* Datos Top 3 paradas más clickeadas */ 
-            app.MapGet("api/getTopParadas", async(AnalyticsService analyticsService) => {
+            /* Datos Top 3 paradas más clickeadas */
+            app.MapGet("api/getTopParadas", async (AnalyticsService analyticsService) =>
+            {
                 var topParadas = await analyticsService.getTopParadas();
                 return Results.Ok(topParadas);
             });
