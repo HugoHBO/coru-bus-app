@@ -1,20 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-/* Ruta Buses - Parada 
-
-Se le pasa -> número de parada : devuelve  -> buses para esa parada y tiempo etc // se le puede pasar : 1747432461571 ms, 
-
-Código que genera un timestamp -> 
-string baseUrl = https://itranvias.com/queryitr_v3.php?&dato=523&func=0";
-long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-string fullUrl = $"{baseUrl}&_={timestamp}";
-
-Rutas sin timestamp ->
-https://itranvias.com/queryitr_v3.php?&dato=523&func=0
-*/
-
-
-namespace dowload
+namespace Corubus.Api.Dowload
 {
     public static class Data
     {

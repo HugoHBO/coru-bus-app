@@ -1,9 +1,10 @@
 using System.Runtime.CompilerServices;
 using System.Text.Encodings.Web;
-using corubus.api.Models;
-using dowload;
+using Corubus.Api.Dtos;
+using Corubus.Api.Dowload;
+using Corubus.DataAccess.Services;
 
-namespace busApi
+namespace Corubus.Api.Routes
 {
 
     public static class Routes
@@ -55,25 +56,24 @@ namespace busApi
 
 
             /* Datos de analiticas */
-            app.MapPost("api/sendParadasData", (ParadasCounter paradasCounter) =>
+            app.MapPost("api/sendParadasData", async (ParadasRequest request, AnalyticsService analyticsService) =>
             {
-                if (paradasCounter.Paradas == null || paradasCounter.Paradas.Count == 0)
+                if (request.Paradas == null || request.Paradas.Count == 0)
                 {
                     return Results.BadRequest("No se han recibido paradas.");
                 }
 
-                // Procesamiento: aquí guardarías o registrarías los datos
-                foreach (var parada in paradasCounter.Paradas)
-                {
-                    Console.WriteLine($"Parada ID: {parada.Id}, Count: {parada.Count}");
-                }
-
-                // Si todo va bien
-                return Results.Ok(new { mensaje = "Datos de paradas recibidos correctamente." });
+                await analyticsService.ProcesarParadasAsync(request);
+                return Results.Ok();
             });
 
-            app.MapGet("api/ping", () => Results.Ok("pong"));
-       
+            /* Datos Top 3 paradas más clickeadas */ 
+            app.MapGet("api/getTopParadas", async(AnalyticsService analyticsService) => {
+                var topParadas = await analyticsService.getTopParadas();
+                return Results.Ok(topParadas);
+            });
+
+
         }
 
     }

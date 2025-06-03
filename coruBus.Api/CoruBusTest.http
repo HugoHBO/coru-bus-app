@@ -24,10 +24,13 @@ Accept: application/json
 {
   "Paradas": [
     { "Id": 1, "Count": 3 },
-    { "Id": 2, "Count": 1 }
+    { "Id": 2, "Count": 1 },
+    { "Id": 3, "Count": 4 },
+    { "Id": 4, "Count": 1 }
   ]
 }
 
-### (devuelve todas las paradas )
-GET {{coruBus_HostAddress}}/api/ping
+### (devuelve top 3 paradas mas usadas )
+GET {{coruBus_HostAddress}}/api/getTopParadas
+Content-Type: application/json
 Accept: application/json

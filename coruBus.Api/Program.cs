@@ -1,4 +1,7 @@
-using busApi;
+using Corubus.Api.Routes;
+using Microsoft.EntityFrameworkCore;
+using Corubus.DataAccess;
+using Corubus.DataAccess.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +17,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Registro de EF Core con SQLite
+builder.Services.AddDbContext<AnalyticsDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Servicio BLL DataAccess
+builder.Services.AddScoped<AnalyticsService>();
+
 var app = builder.Build();
 
-// endpoints 
+// middleware
 app.UseCors("AllowAngularDev");
+
 app.ConfigureRoutes();
 
 app.Run();
