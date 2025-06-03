@@ -2,34 +2,42 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DataService } from './services/Data.service';
-import { forkJoin } from 'rxjs';
-import { NavbarComponent } from "./components/shared/navbar/navbar.component";
+import { forkJoin, Subscription } from 'rxjs';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { AnalyticsService } from './services/Analytics.service';
+import { IdiomaService } from './services/Idioma.service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, CommonModule, NavbarComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'coruBusFront';
-  cargando : boolean = true;
+  cargando: boolean = true;
+  private idiomaSub!: Subscription;
 
   constructor(
-    private _DataSevice : DataService,
-    private _AnalyticsService : AnalyticsService
-  ){}
+    private _DataSevice: DataService,
+    private _AnalyticsService: AnalyticsService,
+    private _IdiomaService: IdiomaService
+  ) {}
 
   ngOnInit(): void {
-  forkJoin([
-    this._DataSevice.chargeLineas(),
-    this._DataSevice.chargeParadas()
-  ]).subscribe(() => {
-    this.cargando = false;
-  });
-}
+    this.idiomaSub = this._IdiomaService.idioma$.subscribe(() => {
+      this.cargando = true;
 
+      forkJoin([
+        this._DataSevice.chargeLineas(),
+        this._DataSevice.chargeParadas(),
+      ]).subscribe(() => {
+        this.cargando = false;
+      });
+    });
+  }
 
-
+   ngOnDestroy(): void {
+    this.idiomaSub.unsubscribe();
+  }
 }

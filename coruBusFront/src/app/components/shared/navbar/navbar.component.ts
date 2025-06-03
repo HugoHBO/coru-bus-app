@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IdiomaService } from '../../../services/Idioma.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,13 +12,14 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
   public menuAbierto = false;
   public horaActual: string = '';
-  panelAbierto = false;
+  public panelAbierto = false;
   private intervalo!: any;
-  idioma: 'gal' | 'es' | 'en' = 'es';
+  public idioma! : string;
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _IdiomaService: IdiomaService) {}
 
   public ngOnInit(): void {
+    this.idioma = this._IdiomaService.getIdiomaActual();
     this.actualizarHora();
     const ahora = new Date();
     const msHastaSiguienteMinuto = (60 - ahora.getSeconds()) * 1000;
@@ -43,9 +45,8 @@ export class NavbarComponent implements OnInit {
     this._router.navigate(['/']);
   }
 
-  public cambiarIdioma(nuevoIdioma: 'gal' | 'es' | 'en') {
-    this.idioma = nuevoIdioma;
-    // Aquí puedes guardar en localStorage, o llamar a un servicio de traducción si usas ngx-translate
+  public cambiarIdioma(nuevoIdioma: 'gl' | 'es' | 'en') {
+    this._IdiomaService.selectLanguage(nuevoIdioma);
   }
 
   public irAEstadisticas() {
@@ -56,4 +57,5 @@ export class NavbarComponent implements OnInit {
   public togglePanel() {
     this.panelAbierto = !this.panelAbierto;
   }
+
 }

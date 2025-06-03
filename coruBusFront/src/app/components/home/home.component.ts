@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ParadasService } from '../../services/Paradas.service';
@@ -12,7 +12,7 @@ import { FavoritosComponent } from "./favoritosParadas/favoritos.component";
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   lineas: any 
   
   constructor(
@@ -23,10 +23,6 @@ export class HomeComponent implements OnInit {
   public irAParadas(linea: any): void {
     this._paradasService.setSelectedLinea(linea); 
     this.router.navigate(['/paradas']);
-  }
-
-  // Hace la peticcion al endpoint y recupera el objeto de las lineas
-  ngOnInit(): void {
   }
   
 }
