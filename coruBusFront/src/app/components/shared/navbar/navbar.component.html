@@ -1,24 +1,38 @@
 <div class="container-fluid fondo-rojo-degradado d-flex align-items-center justify-content-between px-3 py-2">
-  
-  <button
-    type="button"
-    (click)="irALineas()"
-    class="btn btn-sin-borde d-flex align-items-center gap-2"
-  >
-    <i class="bi bi-signpost-split-fill"></i>
+
+  <!-- Botón que abre el panel -->
+  <button class="btn btn-sin-borde" (click)="togglePanel()">
+    <i class="bi bi-list fs-5"></i>
   </button>
 
+  <!-- Panel lateral -->
+  <div class="side-panel" [class.abierto]="panelAbierto">
+    <button class="cerrar-btn" (click)="togglePanel()">x</button>
+
+    <!-- Selector de idioma -->
+    <div class="idioma-selector">
+      <span class="titulo">IDIOMA</span>
+      <div class="opciones">
+        <button (click)="cambiarIdioma('gal')" [class.activo]="idioma === 'gal'">GAL</button>
+        <button (click)="cambiarIdioma('es')" [class.activo]="idioma === 'es'">ES</button>
+        <button (click)="cambiarIdioma('en')" [class.activo]="idioma === 'en'">EN</button>
+      </div>
+    </div>
+
+    <button class="btn-estadisticas" (click)="irAEstadisticas()">
+      ESTADISTICAS
+    </button>
+
+  </div>
+
+  <!-- Reloj -->
   <div class="reloj-digital mx-auto">
     {{ horaActual }}
   </div>
 
-  <button
-    class="btn btn-sin-borde d-flex align-items-center"
-    type="button"
-    (click)="toggleMenu()"
-  >
-    <i class="bi bi-list fs-3"></i>
+  <!-- Botón irALineas -->
+  <button type="button" (click)="irALineas()" class="btn btn-sin-borde d-flex align-items-center gap-2">
+    <i class="bi bi-signpost-split-fill"></i>
   </button>
 
 </div>
-

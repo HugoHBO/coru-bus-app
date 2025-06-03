@@ -1,23 +1,48 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
-import { NavbarComponent } from './navbar.component';
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'],
+})
+export class NavbarComponent {
+  idioma: any;
+  cambiarIdioma(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
+  panelAbierto: any;
+  togglePanel() {
+    throw new Error('Method not implemented.');
+  }
+  public menuAbierto = false;
+  horaActual: string = '';
+  private router = inject(Router);
 
-describe('NavbarComponent', () => {
-  let component: NavbarComponent;
-  let fixture: ComponentFixture<NavbarComponent>;
+  constructor() {
+    this.actualizarHora();
+    setInterval(() => this.actualizarHora(), 1000);
+  }
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NavbarComponent]
-    })
-    .compileComponents();
+  public toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
 
-    fixture = TestBed.createComponent(NavbarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  public irALineas() {
+    this.menuAbierto = false;
+    this.router.navigate(['/lineas']);
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  public irAEstadisticas() {
+    this.menuAbierto = false;
+    this.router.navigate(['/estadisticas']);
+  }
+
+  private actualizarHora() {
+    const ahora = new Date();
+    this.horaActual = ahora.toLocaleTimeString();
+  }
+}

@@ -3,7 +3,7 @@
   <div class="linea-header d-flex flex-column flex-md-row justify-content-between align-items-center p-3 mb-1 shadow-sm"
     [style.backgroundColor]="'#' + selectedLinea.color">
     <div class="linea-info text-white text-center text-md-start mb-3 mb-md-0">
-      <span>Línea {{ selectedLinea.lin_comer }}</span> &nbsp;
+      <span class="linea-codigo">{{ selectedLinea.lin_comer }}</span> &nbsp;
       {{ ruta === 'ida' ? selectedLinea.nombre_orig : selectedLinea.nombre_dest }} →
       {{ ruta === 'ida' ? selectedLinea.nombre_dest : selectedLinea.nombre_orig }}
     </div>

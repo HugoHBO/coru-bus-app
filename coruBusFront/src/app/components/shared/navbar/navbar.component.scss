@@ -10,18 +10,17 @@
 }
 
 .fondo-rojo-degradado {
-  background: linear-gradient(to right, #a50d0d, #b45151); 
-
+  background: linear-gradient(to right, #7e1010, #b45151); 
 }
 
 .btn-sin-borde {
-  border: none ;     
-  background: transparent ;  
-  color: #fff ;       
-  padding: 0.4rem 1rem ;
+  border: none;
+  background: transparent;
+  color: #fff;
+  padding: 0.4rem 1rem;
   font-weight: 600;
   transition: background-color 0.3s ease, color 0.3s ease;
-  border-radius: 6px;
+  border-radius: 30px;
 }
 
 .btn-sin-borde:hover,
@@ -30,4 +29,83 @@
   color: #fff;
   outline: none;
   box-shadow: none;
+}
+
+/* Fondo del desplegable */
+.side-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 210px;
+  background-color: #633131ec;
+  padding: 1rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1050;
+
+  &.abierto {
+    transform: translateX(0);
+  }
+}
+
+.cerrar-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+// Boton de estadisticas
+.btn-estadisticas {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+  padding-left: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #b45151;
+    border-radius: 5px;
+    color: #fff;
+  }
+}
+
+// Selector de idioma 
+.idioma-selector {
+  margin-bottom: 1.5rem;
+
+  .titulo {
+    display: block;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .opciones {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &.activo,
+      &:hover {
+        background: #b45151;
+      }
+    }
+  }
 }

@@ -1,26 +1,18 @@
 <div class="container-central">
   <!-- Botón -->
-  <button
-    class="boton-favoritos mb-0"
-    (click)="mostrarFavoritos = !mostrarFavoritos"
-  >
+  <button class="boton-favoritos mb-0" (click)="mostrarFavoritos = !mostrarFavoritos">
     <i class="bi bi-star-fill"></i>
     <span>
       {{ mostrarFavoritos ? "Ocultar favoritos" : "Mostrar favoritos" }}
     </span>
 
-    <i
-      class="bi bi-chevron-right"
-      [style.transform]="mostrarFavoritos ? 'rotate(90deg)' : 'rotate(0deg)'"
-      [style.transition]="'transform 0.3s ease'"
-    >
+    <i class="bi bi-chevron-right" [style.transform]="mostrarFavoritos ? 'rotate(90deg)' : 'rotate(0deg)'"
+      [style.transition]="'transform 0.3s ease'">
     </i>
   </button>
 
   <!-- Contenedor desplegable -->
-  <div
-    [ngClass]="{ expandible: true, 'expandible--abierto': mostrarFavoritos }"
-  >
+  <div [ngClass]="{ expandible: true, 'expandible--abierto': mostrarFavoritos }">
     <div class="scroll-paradas d-flex flex-column gap-3 px-2">
       <div *ngFor="let parada of favoritos">
         <app-parada [parada]="parada"></app-parada>
