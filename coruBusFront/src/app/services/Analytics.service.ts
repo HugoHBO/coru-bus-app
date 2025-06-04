@@ -48,16 +48,4 @@ export class AnalyticsService {
 
     localStorage.setItem('paradasCounter', JSON.stringify(paradas));
   }
-
-  public postParadasCoounter(): void {}
-
-  // se comprueba si existe el objeto, si no existe se crea
-
-  // suma 1 a los datos de paradas por id , se guarda en local storage
-
-  // si la parada idParada no esta en el obejto lo crea y establece a 1
-
-  // si ya existe se le suma 1
-
-  // se envía cada 1 minuto
 }

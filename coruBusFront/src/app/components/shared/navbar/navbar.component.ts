@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IdiomaService } from '../../../services/Idioma.service';
+import { TraduccionService } from '../../../services/Traduccion.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -14,9 +16,15 @@ export class NavbarComponent implements OnInit {
   public horaActual: string = '';
   public panelAbierto = false;
   private intervalo!: any;
-  public idioma! : string;
+  public idioma!: string;
+  public traducciones$!: Observable<Record<string, string>>;
 
-  constructor(private _router: Router, private _IdiomaService: IdiomaService) {}
+  constructor(
+    private _router: Router,
+    private _IdiomaService: IdiomaService,
+    private eRef: ElementRef,
+    private _traduccionService: TraduccionService
+  ) {}
 
   public ngOnInit(): void {
     this.idioma = this._IdiomaService.getIdiomaActual();
@@ -28,6 +36,8 @@ export class NavbarComponent implements OnInit {
       this.actualizarHora();
       this.intervalo = setInterval(() => this.actualizarHora(), 60000);
     }, msHastaSiguienteMinuto);
+
+    this.traducciones$ = this._traduccionService.traducciones$;
   }
 
   public actualizarHora(): void {
@@ -46,6 +56,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public cambiarIdioma(nuevoIdioma: 'gl' | 'es' | 'en') {
+    this.idioma = nuevoIdioma;
     this._IdiomaService.selectLanguage(nuevoIdioma);
   }
 
@@ -58,4 +69,12 @@ export class NavbarComponent implements OnInit {
     this.panelAbierto = !this.panelAbierto;
   }
 
+  // cierra el panel si clic fuera
+  @HostListener('document:click', ['$event'])
+  public onClickFuera(event: MouseEvent) {
+    const clickedInside = this.eRef.nativeElement.contains(event.target);
+    if (!clickedInside && this.panelAbierto) {
+      this.panelAbierto = false;
+    }
+  }
 }

@@ -3,7 +3,7 @@
   <button class="boton-favoritos mb-0" (click)="mostrarFavoritos = !mostrarFavoritos">
     <i class="bi bi-star-fill"></i>
     <span>
-      {{ mostrarFavoritos ? "Ocultar favoritos" : "Mostrar favoritos" }}
+      {{ (traducciones$ | async)?.[mostrarFavoritos ? 'favoritos.ocultar' : 'favoritos.mostrar'] }}
     </span>
 
     <i class="bi bi-chevron-right" [style.transform]="mostrarFavoritos ? 'rotate(90deg)' : 'rotate(0deg)'"

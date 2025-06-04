@@ -3,19 +3,18 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class IdiomaService {
-
   private idiomaSubject = new BehaviorSubject<string>(this.getIdiomaActual());
-  idioma$ = this.idiomaSubject.asObservable(); // esto lo usan los componentes/servicios
+  idioma$ = this.idiomaSubject.asObservable();
 
   constructor() {}
 
   // selector de idioma. default "es"
   public selectLanguage(idiomaSeleccionado: string): void {
     localStorage.setItem('idioma', idiomaSeleccionado);
-    this.idiomaSubject.next(idiomaSeleccionado); // emitimos el nuevo idioma
+    this.idiomaSubject.next(idiomaSeleccionado);
   }
 
-   public getIdiomaActual(): string {
+  public getIdiomaActual(): string {
     return localStorage.getItem('idioma') ?? 'es';
   }
 }

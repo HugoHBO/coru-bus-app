@@ -31,7 +31,7 @@
   width: 100%;
   min-height: 60px;
   border-radius: 12px;
-  background-color: #a50d0dcc; // azul Bootstrap
+  background-color: #a50d0dcc; 
   color: #fff;
   cursor: pointer;
   border: none;
@@ -43,8 +43,8 @@
   }
 
   &:hover {
-    background: #b45151; // un azul más oscuro
-    color: #fff; // mantenemos el texto blanco
+    background: #b45151; 
+    color: #fff; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 }

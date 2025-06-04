@@ -1,48 +1,54 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NavbarComponent } from './navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-@Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
-})
-export class NavbarComponent {
-  idioma: any;
-  cambiarIdioma(arg0: string) {
-    throw new Error('Method not implemented.');
-  }
-  panelAbierto: any;
-  togglePanel() {
-    throw new Error('Method not implemented.');
-  }
-  public menuAbierto = false;
-  horaActual: string = '';
-  private router = inject(Router);
+// Mock para el IdiomaService
+const idiomaServiceMock = {
+  getIdiomaActual: () => 'es',
+  selectLanguage: (lang: string) => {},
+};
 
-  constructor() {
-    this.actualizarHora();
-    setInterval(() => this.actualizarHora(), 1000);
-  }
+// Mock para el TraduccionService con traducciones dummy
+const traduccionServiceMock = {
+  traducciones$: of({
+    'nav.idioma': 'Idioma',
+    'nav.estadistica': 'Estadísticas',
+  }),
+};
 
-  public toggleMenu() {
-    this.menuAbierto = !this.menuAbierto;
-  }
+describe('NavbarComponent', () => {
+  let component: NavbarComponent;
+  let fixture: ComponentFixture<NavbarComponent>;
 
-  public irALineas() {
-    this.menuAbierto = false;
-    this.router.navigate(['/lineas']);
-  }
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [NavbarComponent],
+      providers: [
+        { provide: 'IdiomaService', useValue: idiomaServiceMock },
+        { provide: 'TraduccionService', useValue: traduccionServiceMock },
+      ],
+    }).compileComponents();
 
-  public irAEstadisticas() {
-    this.menuAbierto = false;
-    this.router.navigate(['/estadisticas']);
-  }
+    fixture = TestBed.createComponent(NavbarComponent);
+    component = fixture.componentInstance;
 
-  private actualizarHora() {
-    const ahora = new Date();
-    this.horaActual = ahora.toLocaleTimeString();
-  }
-}
+    // Reemplaza las inyecciones para que apunten a los mocks
+    (component as any)._IdiomaService = idiomaServiceMock;
+    (component as any)._traduccionService = traduccionServiceMock;
+
+    fixture.detectChanges();
+  });
+
+  it('debería crearse', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('debería emitir traducciones', (done) => {
+    component.traducciones$.subscribe((traducciones) => {
+      expect(traducciones['nav.idioma']).toBe('Idioma');
+      done();
+    });
+  });
+});

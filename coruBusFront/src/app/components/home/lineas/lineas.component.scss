@@ -1,27 +1,27 @@
 .container-central {
   width: 100%;
-  height: 75vh;
-  max-width: 1500px;  /* Máximo ancho para no crecer mucho en pantallas grandes */
+  height: 75dvh;
+  max-width: 1500px;
   margin: 0 auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem 1rem;
-  overflow-x: hidden;
+  overflow: auto;
 }
 
 .scroll-lineas {
   flex: 1;
   overflow-y: auto;
-  padding: 0 1rem;  /* Padding lateral para que no pegue */
+  padding: 0 1rem;
   scroll-behavior: smooth;
 
-  padding: 0; 
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+    display: none;
   }
 }
 
@@ -32,14 +32,17 @@
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .container-central {
+    height: 70dvh;
+  }
   .grid-lineas {
     grid-template-columns: 1fr;
   }
-  
+
   .linea-nombres {
     flex-direction: column !important;
     width: 100% !important;
@@ -51,13 +54,12 @@
   .nombre-separador {
     display: none !important;
   }
-
 }
 
 .linea-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0, 5rem;
   padding: 1rem;
   width: 100%;
   height: 65px;
@@ -69,8 +71,12 @@
   transition: background 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    background: linear-gradient(90deg, rgba(172, 25, 25, 0.15), rgba(255,255,255,0));
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    background: linear-gradient(
+      90deg,
+      rgba(172, 25, 25, 0.15),
+      rgba(255, 255, 255, 0)
+    );
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -86,17 +92,13 @@
 
 .linea-nombres {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;     /* mantiene las cosas en fila por defecto */
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f0f0f0;
-  gap: 0.3rem;
-  align-items: center;     /* alinea verticalmente los elementos (por ejemplo la flecha y los textos) */
-  justify-content: center; /* centra horizontalmente el contenido */
-  word-break: break-word;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
   overflow-wrap: break-word;
-  
+  word-break: break-word;
 }
 
 .nombre-separador {
@@ -109,7 +111,6 @@
 
 .nombre-origen {
   font-size: 1rem;
-  
 }
 
 .nombre-destino {

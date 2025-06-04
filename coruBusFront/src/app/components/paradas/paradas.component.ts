@@ -5,6 +5,8 @@ import { Linea } from '../../models/linea';
 import { Parada, ParadaInfo } from '../../models/paradas';
 import { ParadaComponent } from '../shared/parada/parada.component';
 import { FavoritosService } from '../../services/Favoritos.service';
+import { TraduccionService } from '../../services/Traduccion.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-paradas',
@@ -21,10 +23,12 @@ export class ParadasComponent implements OnInit {
   public paradasIda: Parada[] | null = [];
   public paradasVuelta: Parada[] | null = [];
   public favoritos: Parada[] = [];
+  public traducciones$!: Observable<Record<string, string>>;
 
   constructor(
     private _paradasService: ParadasService,
-    private _favoritosService: FavoritosService
+    private _favoritosService: FavoritosService,
+    private _traduccionService: TraduccionService
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +40,7 @@ export class ParadasComponent implements OnInit {
     this._favoritosService.favoritos$.subscribe((favoritos) => {
       this.favoritos = favoritos;
     });
+    this.traducciones$ = this._traduccionService.traducciones$;
   }
 
   public onToggleChange(event: Event): void {

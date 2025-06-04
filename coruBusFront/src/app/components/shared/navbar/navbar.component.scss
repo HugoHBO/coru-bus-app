@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap");
 
 .reloj-digital {
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   font-size: 1.5rem;
   color: #ffffff;
   padding: 0.5rem 1rem;
@@ -10,7 +10,7 @@
 }
 
 .fondo-rojo-degradado {
-  background: linear-gradient(to right, #7e1010, #b45151); 
+  background: linear-gradient(to right, #7e1010, #b45151);
 }
 
 .btn-sin-borde {
@@ -21,14 +21,14 @@
   font-weight: 600;
   transition: background-color 0.3s ease, color 0.3s ease;
   border-radius: 30px;
-}
 
-.btn-sin-borde:hover,
-.btn-sin-borde:focus {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  outline: none;
-  box-shadow: none;
+  &:hover,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 /* Fondo del desplegable */
@@ -49,13 +49,25 @@
   }
 }
 
-.cerrar-btn {
-  background: none;
-  border: none;
+// Boton de cierre
+.btn-icon-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid #fff;
   color: #fff;
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffdddd;
+    border-color: #ffdddd;
+  }
 }
 
 // Boton de estadisticas
@@ -72,13 +84,13 @@
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #b45151;
+    background-color: rgba(255, 255, 255, 0.15);
     border-radius: 5px;
     color: #fff;
   }
 }
 
-// Selector de idioma 
+// Selector de idioma
 .idioma-selector {
   margin-bottom: 1.5rem;
 
@@ -104,7 +116,7 @@
 
       &.activo,
       &:hover {
-        background: #b45151;
+        background: rgba(255, 255, 255, 0.15);
       }
     }
   }

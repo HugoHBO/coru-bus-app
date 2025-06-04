@@ -12,8 +12,12 @@
       <input type="checkbox" id="toggleRuta" class="toggleCheckbox" [checked]="ruta === 'vuelta'"
         (change)="onToggleChange($event)" />
       <label for="toggleRuta" class="toggleContainer elegant-toggle">
-        <span class="toggle-label" [class.active]="ruta === 'ida'">Ida</span>
-        <span class="toggle-label" [class.active]="ruta === 'vuelta'">Vuelta</span>
+        <span class="toggle-label" [class.active]="ruta === 'ida'">
+          {{ (traducciones$ | async)?.['ruta.ida'] }}
+        </span>
+        <span class="toggle-label" [class.active]="ruta === 'vuelta'">
+          {{ (traducciones$ | async)?.['ruta.vuelta'] }}
+        </span>
       </label>
     </div>
   </div>

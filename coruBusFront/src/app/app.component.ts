@@ -6,10 +6,11 @@ import { forkJoin, Subscription } from 'rxjs';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { AnalyticsService } from './services/Analytics.service';
 import { IdiomaService } from './services/Idioma.service';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, NavbarComponent],
+  imports: [RouterOutlet, CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.idiomaSub.unsubscribe();
   }
 }

@@ -1,15 +1,15 @@
 .container-central {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  flex: 1;
   padding: 1rem;
-  overflow-y: auto;
+  overflow: hidden;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
-}
 
-.container-central::-webkit-scrollbar {
-  display: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
-

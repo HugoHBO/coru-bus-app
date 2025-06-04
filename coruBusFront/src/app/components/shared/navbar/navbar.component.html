@@ -7,11 +7,13 @@
 
   <!-- Panel lateral -->
   <div class="side-panel" [class.abierto]="panelAbierto">
-    <button class="cerrar-btn" (click)="togglePanel()">x</button>
+    <button class="btn btn-icon-circle" (click)="togglePanel()" aria-label="Cerrar">
+      <i class="bi bi-x-lg fs-6"></i>
+    </button>
 
     <!-- Selector de idioma -->
     <div class="idioma-selector">
-      <span class="titulo">IDIOMA</span>
+      <span class="titulo">{{ (traducciones$ | async)?.['nav.idioma'] }}</span>
       <div class="opciones">
         <button (click)="cambiarIdioma('gl')" [class.activo]="idioma === 'gl'">GAL</button>
         <button (click)="cambiarIdioma('es')" [class.activo]="idioma === 'es'">ES</button>
@@ -20,7 +22,7 @@
     </div>
 
     <button class="btn-estadisticas" (click)="irAEstadisticas()">
-      ESTADISTICAS
+      {{ (traducciones$ | async)?.['nav.estadistica'] }}
     </button>
 
   </div>

@@ -1,0 +1,27 @@
+footer {
+  background-color: #f8f9fa;
+  color: #333;
+  font-size: 0.65rem;
+  padding: 0.3rem 1rem; // menos padding a la derecha y sin margen extra
+  text-align: left; // contenido pegado a la izquierda
+  border-top: 1px solid #ddd;
+  width: 100%;
+
+  a {
+    color: #ff00aa;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .footer-content {
+    max-width: 100%;
+    margin: 0; // sin margen para que quede pegado a la izquierda
+  }
+}
