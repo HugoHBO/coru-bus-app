@@ -45,7 +45,8 @@ namespace Corubus.DataAccess.Services
                 .Take(3)
                 .Select(p => new ParadaIdDTO
                 {
-                    Id = p.Id
+                    Id = p.Id,
+                    Count = p.Count
                 })
                 .ToListAsync();
         }
