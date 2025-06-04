@@ -1,32 +1,68 @@
 import { Injectable } from '@angular/core';
-import { ParadasCounter } from '../models/Analytics';
+import { ParadasCounter, TopParadas } from '../models/Analytics';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
-  private readonly url = 'https://tu-backend.com/api/paradasCounter';
+  constructor(private http: HttpClient) {}
+  
 
-  constructor(private http: HttpClient) {
-    // Arranca el intervalo nada más crearse el servicio
-    // this.startSending();
+  /** recibe los datos de top3 paradas del api */ 
+  public getTopParadas(): void {
+    this.http.get('/api/getTopParadas').subscribe({
+      next: (data) => {
+        if (data) {
+          localStorage.setItem('topParadas', JSON.stringify(data));
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener top paradas:', err);
+      },
+    });
   }
+  
 
-  // private startSending(): void {
-  //   setInterval(() => {
-  //     this.postParadasCounter();
-  //   }, 60000); // cada 1 minuto
-  // }
-
+  /**  envía los datos de las paradas justo antes de cerrar la aplicación */
   public postParadasCounter(): void {
     const stored = localStorage.getItem('paradasCounter');
     if (!stored) return;
 
     const paradasCounter = JSON.parse(stored);
 
-    this.http.post(this.url, paradasCounter).subscribe({
+    // miro si sendBeacon está disponible en el navegador
+    if (navigator.sendBeacon) {
+      const url = '/api/sendParadasData';
+      const data = JSON.stringify(paradasCounter);
+
+      // Creao un Blob con el contenido JSON y el tipo correcto
+      const blob = new Blob([data], { type: 'application/json' });
+
+      // mando datos con sendBeacon (no bloquea el cierre)
+      const enviado = navigator.sendBeacon(url, blob);
+
+      if (enviado) {
+        // si se envia correctamente, eliminamos el localStorage
+        localStorage.removeItem('paradasCounter');
+        console.log(
+          'Paradas enviadas con sendBeacon y eliminadas del localStorage'
+        );
+      } else {
+        console.warn('No se pudo enviar con sendBeacon, intentando con POST');
+        // enviar con POST como fallback (menos fiable al cerrar)
+        this.sendParadasPost(paradasCounter);
+      }
+    } else {
+      // si no existe sendBeacon, envia con POST
+      this.sendParadasPost(paradasCounter);
+    }
+  }
+
+  /** método auxiliar para enviar por HTTP POST tradicional*/ 
+  private sendParadasPost(data: any): void {
+    this.http.post('/api/sendParadasData', data).subscribe({
       next: () => {
         localStorage.removeItem('paradasCounter');
-        console.log('Paradas enviadas y eliminadas del localStorage');
+        console.log('Paradas enviadas y eliminadas del localStorage (POST)');
       },
       error: (err) => {
         console.error('Error al enviar paradas:', err);
@@ -34,18 +70,25 @@ export class AnalyticsService {
     });
   }
 
+  /** crea o ingrementa el numero de clics */
   public incrementParadaCount(id: number): void {
     const stored = localStorage.getItem('paradasCounter');
-    let paradas: ParadasCounter[] = stored ? JSON.parse(stored) : [];
-
-    const parada = paradas.find((p) => p.id === id);
-
+    let paradasCounter: ParadasCounter = stored
+      ? JSON.parse(stored)
+      : { Paradas: [] };
+    const parada = paradasCounter.Paradas.find((p) => p.Id === id);
     if (parada) {
-      parada.count++;
+      parada.Count++;
     } else {
-      paradas.push({ id, count: 1 });
+      paradasCounter.Paradas.push({ Id: id, Count: 1 });
     }
-
-    localStorage.setItem('paradasCounter', JSON.stringify(paradas));
+    localStorage.setItem('paradasCounter', JSON.stringify(paradasCounter));
   }
+
+  /** devuelve el top de paradas de localStorage */
+  public topParadas(): TopParadas | null {
+    const top = localStorage.getItem('topParadas');
+    return top ? JSON.parse(top) : null;
+  }
+  
 }

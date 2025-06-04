@@ -1,5 +1,11 @@
-<div>
-
-
-
+<div class="top-paradas-container">
+  <div>
+    <h2 class="titulo">{{ (traducciones$ | async)?.['statystic.header'] }}</h2>
+    <ng-container *ngIf="topParadas">
+      <div *ngFor="let parada of topParadas" class="parada-card">
+        <span class="parada-nombre">{{ getNombreParadaById(parada.id) }}</span>
+        <span class="parada-count">{{ parada.count }}</span>
+      </div>
+    </ng-container>
+  </div>
 </div>

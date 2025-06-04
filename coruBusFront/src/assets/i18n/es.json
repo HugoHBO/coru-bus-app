@@ -7,5 +7,7 @@
   "ruta.vuelta": "Vuelta",
   "_NAVBAR_COMPONENT----": "Traducciones para la sección de navbar",
   "nav.idioma": "IDIOMA",
-  "nav.estadistica": "ESTADÍSTICAS"
+  "nav.estadistica": "ESTADÍSTICAS",
+  "_STATIS_COMPONENT----": "Traducciones para la sección de navbar",
+  "statystic.header": "Top paradas más consultadas"
 }

@@ -19,6 +19,10 @@ export class AppComponent implements OnInit {
   cargando: boolean = true;
   private idiomaSub!: Subscription;
 
+  private beforeUnloadHandler = () => {
+    this._AnalyticsService.postParadasCounter();
+  };
+
   constructor(
     private _DataSevice: DataService,
     private _AnalyticsService: AnalyticsService,
@@ -26,6 +30,10 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this._AnalyticsService.getTopParadas();
+
+    window.addEventListener('beforeunload', this.beforeUnloadHandler);
+
     this.idiomaSub = this._IdiomaService.idioma$.subscribe(() => {
       this.cargando = true;
 
@@ -40,5 +48,6 @@ export class AppComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.idiomaSub.unsubscribe();
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 }

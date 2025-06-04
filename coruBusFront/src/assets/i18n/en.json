@@ -7,5 +7,7 @@
   "ruta.vuelta": "Return",
   "_NAVBAR_COMPONENT----": "Traducciones para la sección de navbar",
   "nav.idioma": "LANGUAGE",
-  "nav.estadistica": "STATISTICS"
+  "nav.estadistica": "STATISTICS",
+  "_STATIS_COMPONENT----": "Traducciones para la sección de navbar",
+  "statystic.header": "Top most consulted stops"
 }
