@@ -5,13 +5,15 @@ using Corubus.DataAccess.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseUrls("http://*:5234");
+
 // servicios 
 builder.Services.AddHttpClient();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularDev", policy =>
+     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -27,7 +29,7 @@ builder.Services.AddScoped<AnalyticsService>();
 var app = builder.Build();
 
 // middleware
-app.UseCors("AllowAngularDev");
+app.UseCors("AllowAll");
 
 app.ConfigureRoutes();
 
