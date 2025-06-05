@@ -6,28 +6,57 @@ import { Linea } from '../models/linea';
 import { Parada, ParadaInfo } from '../models/paradas';
 import { Idioma } from '../models/Idioma';
 import { IdiomaService } from './Idioma.service';
+import { AppConfigService } from './AppConfig.service';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
   constructor(
     private http: HttpClient,
+    private appConfig: AppConfigService,
     private _IdiomaService: IdiomaService
   ) {}
 
+  //#region Public methods
+
   public chargeLineas(): Observable<string> {
-    return this.fetchDataByLanguage<Linea[]>('/api/getLineas', 'lineasData');
+    return this.fetchDataByLanguage<Linea[]>(
+      this.appConfig.apiUrl + '/getLineas',
+      'lineasData'
+    );
   }
 
   public chargeParadas(): Observable<string> {
-    return this.fetchDataByLanguage<Parada[]>('/api/getParadas', 'paradasData');
+    return this.fetchDataByLanguage<Parada[]>(
+      this.appConfig.apiUrl + '/getParadas',
+      'paradasData'
+    );
   }
 
-  // Devuelve los datos para la parada solicitada
+  /** Devuelve los datos para la parada solicitada */
   public getDatosParada(idParada: number): Observable<ParadaInfo> {
-    return this.http.post<ParadaInfo>('/api/getBusesParada', idParada);
+    return this.http.post<ParadaInfo>(
+      this.appConfig.apiUrl + '/getBusesParada',
+      idParada
+    );
   }
 
-  // Emcapsula la lógica común para los metodos de carga de datos
+  /** comprueba si session storage está activado -> devuelve boolean */
+  public checkSessionStorage(): boolean {
+    try {
+      const testKey = '__test__';
+      sessionStorage.setItem(testKey, '1');
+      sessionStorage.removeItem(testKey);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  //#endregion ------------------------
+
+  //#region Private methods
+
+  /** Emcapsula la lógica común para los metodos de carga lineas y paradas */
   private fetchDataByLanguage<T>(
     endpoint: string,
     storageKey: string
@@ -44,15 +73,5 @@ export class DataService {
     );
   }
 
-   // comprueba si session storage está activado -> devuelve boolean
-  public checkSessionStorage(): boolean {
-    try {
-      const testKey = '__test__';
-      sessionStorage.setItem(testKey, '1');
-      sessionStorage.removeItem(testKey);
-      return true;
-    } catch {
-      return false;
-    }
-  }
+  //#endregion ------------------------
 }

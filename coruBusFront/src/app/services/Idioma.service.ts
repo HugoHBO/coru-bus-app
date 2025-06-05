@@ -8,12 +8,13 @@ export class IdiomaService {
 
   constructor() {}
 
-  // selector de idioma. default "es"
+  /** selector de idioma. default "es" */
   public selectLanguage(idiomaSeleccionado: string): void {
     localStorage.setItem('idioma', idiomaSeleccionado);
     this.idiomaSubject.next(idiomaSeleccionado);
   }
 
+  /** devuelve el idioma actual */
   public getIdiomaActual(): string {
     return localStorage.getItem('idioma') ?? 'es';
   }

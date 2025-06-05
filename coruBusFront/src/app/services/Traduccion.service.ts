@@ -18,8 +18,4 @@ export class TraduccionService {
       )
       .subscribe((data) => this.traduccionesSubject.next(data));
   }
-
-  public traducir(key: string): string {
-    return this.traduccionesSubject.value[key] ?? key;
-  }
 }

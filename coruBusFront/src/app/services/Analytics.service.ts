@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ParadasCounter, TopParadas } from '../models/Analytics';
 import { HttpClient } from '@angular/common/http';
+import { AppConfigService } from './AppConfig.service';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
-  constructor(private http: HttpClient) {}
-  
+  constructor(private http: HttpClient, private appConfig: AppConfigService) {}
 
-  /** recibe los datos de top3 paradas del api */ 
+  /** recibe los datos de top3 paradas del api */
   public getTopParadas(): void {
-    this.http.get('/api/getTopParadas').subscribe({
+    this.http.get(this.appConfig.apiUrl + '/getTopParadas').subscribe({
       next: (data) => {
         if (data) {
           localStorage.setItem('topParadas', JSON.stringify(data));
@@ -20,18 +20,19 @@ export class AnalyticsService {
       },
     });
   }
-  
 
   /**  envía los datos de las paradas justo antes de cerrar la aplicación */
   public postParadasCounter(): void {
-    const stored = localStorage.getItem('paradasCounter');
+    const stored = localStorage.getItem(
+      this.appConfig.apiUrl + 'paradasCounter'
+    );
     if (!stored) return;
 
     const paradasCounter = JSON.parse(stored);
 
     // miro si sendBeacon está disponible en el navegador
     if (navigator.sendBeacon) {
-      const url = '/api/sendParadasData';
+      const url = '/sendParadasData';
       const data = JSON.stringify(paradasCounter);
 
       // Creao un Blob con el contenido JSON y el tipo correcto
@@ -57,9 +58,9 @@ export class AnalyticsService {
     }
   }
 
-  /** método auxiliar para enviar por HTTP POST tradicional*/ 
+  /** método auxiliar para enviar por HTTP POST tradicional*/
   private sendParadasPost(data: any): void {
-    this.http.post('/api/sendParadasData', data).subscribe({
+    this.http.post(this.appConfig.apiUrl + '/sendParadasData', data).subscribe({
       next: () => {
         localStorage.removeItem('paradasCounter');
         console.log('Paradas enviadas y eliminadas del localStorage (POST)');
@@ -90,5 +91,4 @@ export class AnalyticsService {
     const top = localStorage.getItem('topParadas');
     return top ? JSON.parse(top) : null;
   }
-  
 }
