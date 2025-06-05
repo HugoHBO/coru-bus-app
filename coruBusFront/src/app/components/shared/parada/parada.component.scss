@@ -1,0 +1,11 @@
+.container-parada {
+  &:hover {
+    transition: 10ms;
+    background: linear-gradient(
+      90deg,
+      rgba(218, 194, 194, 0.616),
+      rgba(255, 255, 255, 0.493)
+    );
+    box-shadow: 0 4px 12px rgba(142, 185, 190, 0.3);
+  }
+}

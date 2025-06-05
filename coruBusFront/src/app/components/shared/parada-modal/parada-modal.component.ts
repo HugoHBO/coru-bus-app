@@ -57,13 +57,21 @@ export class ParadaModalComponent {
   public abrirModal(): void {
     const modalEl = document.getElementById('miModal');
     if (modalEl) {
-      this.modalInstance = new Modal(modalEl);
-      this.modalInstance.show();
+      this.modalInstance = (Modal as any).getOrCreateInstance(modalEl);
+      this.modalInstance?.show();
     }
   }
 
   public cerrarModal(): void {
-    this.modalInstance?.hide();
+    const active = document.activeElement as HTMLElement;
+    const modal = document.getElementById('miModal');
+    if (modal && modal.contains(active)) {
+      active.blur();
+    }
+
+    if (this.modalInstance) {
+      this.modalInstance?.hide();
+    }
   }
 
   public toggleLinea(index: number): void {
@@ -84,11 +92,11 @@ export class ParadaModalComponent {
     return response.nombre;
   }
 
-  public getColorLineaById(idLinea : number) : string {
-      const color = this._paradasService.getColorLineaById(idLinea);
-      if (!color) {
-        return '';
-      }
-      return color
+  public getColorLineaById(idLinea: number): string {
+    const color = this._paradasService.getColorLineaById(idLinea);
+    if (!color) {
+      return '';
+    }
+    return color;
   }
 }

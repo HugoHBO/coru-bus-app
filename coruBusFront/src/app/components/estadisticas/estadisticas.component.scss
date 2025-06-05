@@ -1,7 +1,7 @@
+// aquí uso clases scss
 $primary-color: #a13b3b;
 $bg-color: #f3f4f6;
 $card-bg: #ffffff;
-$hover-bg: #eef2ff;
 $text-dark: #1f2937;
 
 .top-paradas-container {
@@ -34,12 +34,17 @@ $text-dark: #1f2937;
     transition: transform 0.2s ease;
 
     &:hover {
-      transform: scale(1.02);
-      background-color: $hover-bg;
+      transition: 10ms;
+      background: linear-gradient(
+        90deg,
+        rgba(218, 194, 194, 0.616),
+        rgba(255, 255, 255, 0.493)
+      );
+      box-shadow: 0 4px 12px rgba(142, 185, 190, 0.3);
     }
 
     .parada-nombre {
-      color: $text-dark;
+      color: $primary-color;
     }
 
     .parada-count {
