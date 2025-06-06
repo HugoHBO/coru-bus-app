@@ -34,10 +34,25 @@ Para detener y eliminar los contenedores, ejecuta el archivo `stop-project.bat`.
 
 ---
 
-## Notas
+## Nota importante sobre almacenamiento web
+
+La aplicación utiliza Local Storage y Session Storage en el navegador para funcionar correctamente. Estas tecnologías están soportadas por la mayoría de los navegadores modernos, pero pueden estar limitadas o deshabilitadas en modos privados/incógnito o configuraciones muy estrictas de privacidad.
+
+---
+
+## Notas de interés
 
 - La primera vez que ejecutes el proyecto puede tardar un poco más, ya que Docker descargará las imágenes base y construirá las imágenes propias.
 - La base de datos está montada como volumen para preservar los datos entre ejecuciones.
 - Si realizas cambios en el código, es recomendable reconstruir las imágenes usando el script de inicio, que incluye el paso de `docker-compose build`.
 
+---
 
+## Aviso legal
+
+Esta aplicación puede utilizar datos provenientes de la aplicacion de Tranvias Coruña. El proyecto se desarrolla con fines exclusivamente educativos y sin ánimo de lucro. 
+No se asume responsabilidad por el uso o manejo de dichos datos fuera del ámbito académico.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.[https://opensource.org/licenses/MIT].
