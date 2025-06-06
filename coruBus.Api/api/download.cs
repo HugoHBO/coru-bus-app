@@ -35,8 +35,6 @@ namespace Corubus.Api.Dowload
             try
             {
                 var response = await httpClient.GetStringAsync(url);
-                // var root = JsonSerializer.Deserialize<RootObject>(json);
-                // var soloParadas = new { paradas = root?.iTranvias?.actualizacion?.paradas };
 
                 JObject jsonObj = JObject.Parse(response);
                 var paradasToken = jsonObj["iTranvias"]?["actualizacion"]?["paradas"];
