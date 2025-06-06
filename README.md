@@ -1,6 +1,32 @@
 # Proyecto CoruBus
 
-Este proyecto contiene el backend y frontend de la aplicación CoruBus, dockerizados para facilitar su despliegue y ejecución local.
+Este proyecto contiene el backend y frontend de la aplicación CoruBus,
+dockerizados para facilitar su despliegue y ejecución local.
+
+---
+
+## Tecnologías utilizadas
+
+- **Angular 19 "StandAlone"**  
+  Framework frontend para la construcción de la SPA (Single Page Application).
+
+- **.NET 8 (ASP.NET Core)**  
+  Backend para exponer la API REST y gestionar la lógica del servidor.
+
+- **SQLite**  
+  Base de datos ligera utilizada en la fase de desarrollo inicial y pruebas locales.
+
+- **Docker & Docker Compose**  
+  Herramientas de contenedorización para facilitar el despliegue local del proyecto.
+
+- **NGINX**  
+  Servidor web encargado de servir el frontend Angular y manejar el enrutamiento.
+
+- **SCSS & Bootstrap**  
+  Tecnologías para el diseño visual responsivo y la personalización de estilos.
+
+- **Git & GitHub**  
+  Sistema de control de versiones y repositorio para la colaboración y seguimiento del proyecto.
 
 ---
 
@@ -15,14 +41,16 @@ Este proyecto contiene el backend y frontend de la aplicación CoruBus, dockeriz
 
 1. Clona el repositorio en tu máquina local.
 
-2. Ejecuta el archivo `start-proyect.bat` (Windows) o el script equivalente en Linux/macOS. "Actualmente solo se ejecuta automático en windows"
+2. Ejecutar Docker-desktop en tu máquina.
+
+3. Ejecuta (doble clic) en el archivo `start-proyect.bat` (Windows) o el script equivalente en Linux/macOS. "Actualmente solo se ejecuta automático en windows"
    Esto construirá las imágenes necesarias, levantará los contenedores y abrirá automáticamente el navegador en la aplicación.
 
 ---
 
 ## Acceso a la aplicación
 
-El navegador se abrirá automáticamente en: http://localhost:30000
+El navegador se abrirá automáticamente en: http://localhost:30000, comprobar que este libre.
 
 Si por alguna razón no se abre, puedes acceder manualmente en esta dirección.
 
@@ -50,7 +78,7 @@ La aplicación utiliza Local Storage y Session Storage en el navegador para func
 
 ## Aviso legal
 
-Esta aplicación puede utilizar datos provenientes de la aplicacion de Tranvias Coruña. El proyecto se desarrolla con fines exclusivamente educativos y sin ánimo de lucro. 
+Esta aplicación utiliza datos provenientes de la api de itranvias.com . El proyecto se desarrolla con fines exclusivamente educativos y sin ánimo de lucro.
 No se asume responsabilidad por el uso o manejo de dichos datos fuera del ámbito académico.
 
 ## Licencia
